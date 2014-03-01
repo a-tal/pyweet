@@ -1,18 +1,17 @@
-"""Pyweet's basic setup.py config."""
+"""Pyweet's setup/installer."""
 
 
-from distutils.core import setup
-from src import __version__
+from setuptools import setup
 
 
 setup(
     name="pyweet",
-    version=__version__,
+    version="0.0.2",
     author="Adam Talsma",
     author_email="adam@talsma.ca",
     package_dir={"pyweet": "src"},
     packages=["pyweet"],
-    requires=["twitter"],
+    install_requires=["twitter"],
     scripts=["bin/pyweet"],
     url="https://github.com/a-tal/pyweet",
     description="Twitter command line util",
