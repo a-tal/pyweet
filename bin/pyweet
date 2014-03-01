@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+
+"""Pyweet's command line entry point."""
+
+
+import pyweet
+
+
+if __name__ == "__main__":
+    pyweet.main()
