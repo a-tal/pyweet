@@ -10,6 +10,7 @@ Options:
     -s: stream tweets, runs until you kill it with ^c
     -t: display the timestamp of the tweet
     -d: display the date of the tweet
+    -n: disable the antispam features
 
 Note that stream does not work for your user page due to a bug in the upstream
 module and/or API changes...
@@ -19,6 +20,7 @@ module and/or API changes...
 import os
 import sys
 import json
+import time
 import twitter
 import traceback
 from functools import wraps
@@ -32,6 +34,39 @@ class Settings(object):
     API = "rgIYSFIeGBxVXOPy22QzA"
     API_SECRET = "IK7buBUcWz1zKyTK6KF08WpG4Ic8w83DuEAb1FIErio"
     AUTH_FILE = os.path.expanduser("~/.pyweet")
+
+
+class AntiSpam(object):
+    """Stores tweets with timestamps to prevent some spam."""
+
+    tweet_store = {}
+
+    @staticmethod
+    def is_spam(tweet_text):
+        """Ensures the tweet text is unique to the last 10 minutes.
+
+        Returns:
+            True if the tweet has been seen recently
+        """
+
+        now = int(time.time())
+        AntiSpam._clear_store(now)
+        if tweet_text in AntiSpam.tweet_store:
+            return True
+        else:
+            AntiSpam.tweet_store[tweet_text] = now
+
+    @staticmethod
+    def _clear_store(now):
+        """Remove old entries."""
+
+        pops = []
+        for text, timestamp in AntiSpam.tweet_store.items():
+            if now - timestamp > 600:
+                pops.append(text)
+
+        for popper in pops:
+            AntiSpam.tweet_store.pop(popper)
 
 
 def get_twit(func):
@@ -93,7 +128,8 @@ def _print_tweet(tweet, settings):
     """
 
     tweet_text = tweet.get("text")
-    if tweet_text is None:
+    if tweet_text is None or (not settings["spam"] and
+       AntiSpam.is_spam(tweet_text)):
         return False
 
     for encoding in ["utf-8", "latin-1"]:
@@ -194,6 +230,7 @@ def parse_args():
             date: boolean to display the date ahead of the tweet
             time: boolean to display the time ahead of the tweet
             json: boolean to display the tweet's json structure instead
+            spam: boolean to skip the anti spam measures
     """
 
     settings = {
@@ -204,6 +241,7 @@ def parse_args():
         "date": False,
         "time": False,
         "json": False,
+        "spam": False,
     }
     max_set = False
     get_next = False
@@ -227,8 +265,10 @@ def parse_args():
             settings["time"] = True
         elif arg == "j":
             settings["json"] = True
+        elif arg == "n":
+            settings["spam"] = True
         elif arg == "h":
-            raise SystemExit(__doc__)
+            raise SystemExit(__doc__.strip())
         elif not max_set:
             try:
                 settings["max"] = int(arg)

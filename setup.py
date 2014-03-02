@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name="pyweet",
-    version="0.0.2",
+    version="0.0.3",
     author="Adam Talsma",
     author_email="adam@talsma.ca",
     package_dir={"pyweet": "src"},
