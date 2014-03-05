@@ -1,5 +1,5 @@
-pyweet
-======
+pyweet [![Build Status](https://travis-ci.org/a-tal/pyweet.png?branch=master)](https://travis-ci.org/a-tal/pyweet) [![Coverage Status](https://coveralls.io/repos/a-tal/pyweet/badge.png?branch=master)](https://coveralls.io/r/a-tal/pyweet?branch=master)
+==============================
 
 Python Twitter Command Line Interface
 
@@ -53,4 +53,4 @@ If you'd like to see all the metadata about the tweets, you can use the `-j` opt
 Feature Requests and Bugs
 =========================
 
-Please direct feature requests or bugs to Github's [issue tracking service](https://github.com/a-tal/pyweet/issues)
+Please direct feature requests or bugs to Github's [issue tracking service](https://github.com/a-tal/pyweet/issues).
