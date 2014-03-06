@@ -4,7 +4,7 @@
 import sys
 import unittest
 
-from pyweet import pyweet
+import pyweet
 
 
 class CmdLineTests(unittest.TestCase):

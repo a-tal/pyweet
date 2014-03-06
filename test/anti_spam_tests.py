@@ -4,7 +4,7 @@
 import time
 import unittest
 
-from pyweet.pyweet import AntiSpam
+from pyweet import AntiSpam
 
 
 class AntiSpamTests(unittest.TestCase):
