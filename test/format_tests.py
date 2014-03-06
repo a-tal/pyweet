@@ -120,8 +120,9 @@ class FormattingTests(unittest.TestCase):
         """People can tweet unicode hamburgers, it shouldn't break pyweet."""
 
         self.tweet["text"] = "do you have any spare ⌛ for a 🍔?"
+        result = pyweet._print_tweet(self.tweet, self.settings)
         if sys.version_info.major == 2:
-            self.assertFalse(pyweet._print_tweet(self.tweet, self.settings))
+            self.assertFalse(result)
         else:
             self.assertIn(self.tweet["text"], sys.stdout.getvalue().strip())
 
