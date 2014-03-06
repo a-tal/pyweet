@@ -126,6 +126,13 @@ class FormattingTests(unittest.TestCase):
         else:
             self.assertIn(self.tweet["text"], sys.stdout.getvalue().strip())
 
+    def test_json_dumping(self):
+        """Verify the json dumped is the same as the test data input."""
+
+        self.settings.update({"json": True})
+        pyweet._print_tweet(self.tweet, self.settings)
+        self.assertEqual(json.loads(sys.stdout.getvalue().strip()), self.tweet)
+
 
 if __name__ == "__main__":
     unittest.main()
