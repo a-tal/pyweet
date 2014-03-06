@@ -10,14 +10,19 @@ before_install:
   - pip install --upgrade coverage
   - pip install --upgrade twitter
   - if [[ $TRAVIS_PYTHON_VERSION != '3.3' || $TRAVIS_PYTHON_VERSION != '3.2' ]]; then pip install --upgrade futures; fi
+  - python test/setup_tests.py
 
-script: "nosetests --with-coverage --cover-package=pyweet"
+script: nosetests --with-coverage --cover-package=pyweet
 
 after_success:
   - coveralls
 
 notifications:
   irc:
-    channels: "irc.freenode.org#atal-dev"
+    channels: irc.freenode.org#atal-dev
     on_success: change
     on_failure: change
+
+env:
+  global:
+    secure: ic/pVdwwTyNzsqa8V8Fu2OM751NALGUj9QfMpsw8b1tsUlg0y3w+RKs28RkplFTwGPaYFHUp60N2P7DmTdt8wLBQsPZiC+tDU7W/YlS1HY/wab+usNj0hG/QgwBSp6WvZpXhkYZbIacGpd+S6zER2bKoheg1cl11IqntG6HLncc=

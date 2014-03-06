@@ -85,6 +85,7 @@ def get_twit(func):
         """Instantiates a Twitter object based on streaming or RESTful."""
 
         settings = kwargs.get("settings", {})
+        _twit = None
 
         def _lookup_uid(twit):
             """Updates settings, adding the `uid` key."""
@@ -106,8 +107,11 @@ def get_twit(func):
                 settings["stream"] = False
                 if settings.get("user"):
                     _lookup_uid(twit)
-            kwargs.update({"twit": twit, "settings": settings})
+            _twit = twit
+        else:
+            _twit = kwargs["twit"]
 
+        kwargs.update({"twit": _twit, "settings": settings})
         return func(*args, **kwargs)
 
     return _get_twit
