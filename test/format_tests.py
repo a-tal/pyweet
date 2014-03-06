@@ -1,10 +1,15 @@
 """Test the tweet formatting capabilities."""
 
 
+import os
 import sys
 import json
 import unittest
-from StringIO import StringIO
+
+if sys.version_info.major >= 3:
+    from io import StringIO
+else:
+    from StringIO import StringIO
 
 import pyweet
 from pyweet import AntiSpam
@@ -28,7 +33,7 @@ class FormattingTests(unittest.TestCase):
     def test_basic_tweet_parsing(self):
         """Simple use case."""
 
-        tweet = json.load(open("data/tweet.json"))
+        tweet = json.load(open(os.path.join(os.curdir, "data/tweet.json")))
         settings = pyweet.parse_args()
         pyweet._print_tweet(tweet, settings)
         self.assertEqual(
