@@ -4,11 +4,7 @@
 import sys
 import unittest
 
-try:
-    from pyweet import pyweet
-except ImportError:
-    sys.path.insert(1, "..")
-    from src import pyweet
+from pyweet import pyweet
 
 
 class CmdLineTests(unittest.TestCase):

@@ -40,6 +40,14 @@ class AntiSpam(object):
     """Stores tweets with timestamps to prevent some spam."""
 
     tweet_store = {}
+    timeout = 600
+
+    def __init__(self, timeout=None):
+        """Possible to override the timeout, for testing purposes."""
+
+        if timeout and isinstance(timeout, int):
+            setattr(AntiSpam, "timeout", timeout)
+        super(AntiSpam, self).__init__()
 
     @staticmethod
     def is_spam(tweet_text):
@@ -62,7 +70,7 @@ class AntiSpam(object):
 
         pops = []
         for text, timestamp in AntiSpam.tweet_store.items():
-            if now - timestamp > 600:
+            if now - timestamp > AntiSpam.timeout:
                 pops.append(text)
 
         for popper in pops:
