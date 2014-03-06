@@ -144,15 +144,16 @@ def _print_tweet(tweet, settings):
        AntiSpam.is_spam(tweet_text)):
         return False
 
-    for encoding in ["utf-8", "latin-1"]:
-        try:
-            tweet_text.decode(encoding)
-        except UnicodeEncodeError:
-            pass
+    if sys.version_info.major == 2:
+        for encoding in ["utf-8", "latin-1"]:
+            try:
+                tweet_text.decode(encoding)
+            except UnicodeEncodeError:
+                pass
+            else:
+                break
         else:
-            break
-    else:
-        return False
+            return False
 
     if settings.get("json"):
         print(json.dumps(tweet, indent=4, sort_keys=True))
