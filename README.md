@@ -1,4 +1,4 @@
-pyweet [![Build Status](https://travis-ci.org/a-tal/pyweet.png?branch=master)](https://travis-ci.org/a-tal/pyweet) [![Coverage Status](https://coveralls.io/repos/a-tal/pyweet/badge.png?branch=master)](https://coveralls.io/r/a-tal/pyweet?branch=master) [![Stories in Backlog](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=Backlog)](https://waffle.io/a-tal/pyweet) [![Stories In Progress](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=in+progress)](https://waffle.io/a-tal/pyweet)
+pyweet [![Build Status](https://travis-ci.org/a-tal/pyweet.png?branch=master)](https://travis-ci.org/a-tal/pyweet) [![Coverage Status](https://coveralls.io/repos/a-tal/pyweet/badge.png?branch=master)](https://coveralls.io/r/a-tal/pyweet?branch=master) [![Stories in Backlog](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=Backlog)](https://waffle.io/a-tal/pyweet) [![Stories In Progress](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=In+Progress)](https://waffle.io/a-tal/pyweet)
 ==============================
 
 Python Twitter Command Line Interface
