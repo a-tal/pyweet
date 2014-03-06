@@ -1,5 +1,10 @@
+#coding: utf-8
+
+
 """Test the tweet formatting capabilities."""
 
+
+from __future__ import unicode_literals
 
 import os
 import sys
@@ -11,8 +16,8 @@ if sys.version_info.major >= 3:
 else:
     from StringIO import StringIO
 
-import pyweet
-from pyweet import AntiSpam
+from pyweet import pyweet
+from pyweet.pyweet import AntiSpam
 
 
 class FormattingTests(unittest.TestCase):
@@ -110,6 +115,15 @@ class FormattingTests(unittest.TestCase):
         self.assertEqual(date_obj.timetuple().tm_hour, 4)
         self.assertEqual(date_obj.timetuple().tm_min, 45)
         self.assertEqual(date_obj.timetuple().tm_sec, 30)
+
+    def test_cannot_decode_crazy_chars(self):
+        """People can tweet unicode hamburgers, it shouldn't break pyweet."""
+
+        self.tweet["text"] = "do you have any spare ⌛ for a 🍔?"
+        if sys.version_info.major == 2:
+            self.assertFalse(pyweet._print_tweet(self.tweet, self.settings))
+        else:
+            self.assertIn(self.tweet["text"], sys.stdout.getvalue().strip())
 
 
 if __name__ == "__main__":
