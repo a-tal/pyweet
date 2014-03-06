@@ -16,6 +16,8 @@ from pyweet import AntiSpam
 
 
 class FormattingTests(unittest.TestCase):
+    """Capturing standard out, ensuring the tweets display correctly."""
+
     def setUp(self):
         """Capture stdout."""
 
@@ -33,7 +35,11 @@ class FormattingTests(unittest.TestCase):
     def test_basic_tweet_parsing(self):
         """Simple use case."""
 
-        tweet = json.load(open(os.path.join(os.curdir, "data/tweet.json")))
+        tweet = json.load(open(os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            "data",
+            "tweet.json",
+        )))
         settings = pyweet.parse_args()
         pyweet._print_tweet(tweet, settings)
         self.assertEqual(
