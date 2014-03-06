@@ -16,8 +16,8 @@ if sys.version_info.major >= 3:
 else:
     from StringIO import StringIO
 
-from pyweet import pyweet
-from pyweet.pyweet import AntiSpam
+import pyweet
+from pyweet import AntiSpam
 
 
 class FormattingTests(unittest.TestCase):
