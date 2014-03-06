@@ -23,6 +23,12 @@ class FormattingTests(unittest.TestCase):
 
         self._stdout = sys.stdout
         sys.stdout = StringIO()
+        self.tweet = json.load(open(os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            "data",
+            "tweet.json",
+        )))
+        self.settings = pyweet.parse_args()
 
     def tearDown(self):
         """Replace captured stdout, reset argv, clear the AntiSpam."""
@@ -35,13 +41,7 @@ class FormattingTests(unittest.TestCase):
     def test_basic_tweet_parsing(self):
         """Simple use case."""
 
-        tweet = json.load(open(os.path.join(
-            os.path.dirname(os.path.realpath(__file__)),
-            "data",
-            "tweet.json",
-        )))
-        settings = pyweet.parse_args()
-        pyweet._print_tweet(tweet, settings)
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual(
             "@StephenAtHome: The FDA wants to put new labels on our food - "
             "just when I'd grown accustomed to the taste of our current "
@@ -52,11 +52,8 @@ class FormattingTests(unittest.TestCase):
     def test_parsing_with_time(self):
         """Test adding the timestamp to the tweet."""
 
-        settings = pyweet.parse_args()
-        settings.update({"time": True})
-
-        tweet = json.load(open("data/tweet.json"))
-        pyweet._print_tweet(tweet, settings)
+        self.settings.update({"time": True})
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual(
             "04:45:30 @StephenAtHome: The FDA wants to put new labels on our "
             "food - just when I'd grown accustomed to the taste of our current"
@@ -67,11 +64,8 @@ class FormattingTests(unittest.TestCase):
     def test_parsing_with_date(self):
         """Test adding the date to the tweet."""
 
-        settings = pyweet.parse_args()
-        settings.update({"date": True})
-
-        tweet = json.load(open("data/tweet.json"))
-        pyweet._print_tweet(tweet, settings)
+        self.settings.update({"date": True})
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual(
             "Mar 6 @StephenAtHome: The FDA wants to put new labels on our "
             "food - just when I'd grown accustomed to the taste of our current"
@@ -82,11 +76,8 @@ class FormattingTests(unittest.TestCase):
     def test_parsing_with_time_and_date(self):
         """Test using both the time and date."""
 
-        settings = pyweet.parse_args()
-        settings.update({"date": True, "time": True})
-
-        tweet = json.load(open("data/tweet.json"))
-        pyweet._print_tweet(tweet, settings)
+        self.settings.update({"date": True, "time": True})
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual(
             "Mar 6 04:45:30 @StephenAtHome: The FDA wants to put new labels on"
             " our food - just when I'd grown accustomed to the taste of our "
@@ -97,9 +88,7 @@ class FormattingTests(unittest.TestCase):
     def test_second_parse_is_anti_spammed(self):
         """The second identical tweet should be caught and not printed."""
 
-        tweet = json.load(open("data/tweet.json"))
-        settings = pyweet.parse_args()
-        pyweet._print_tweet(tweet, settings)
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual(
             "@StephenAtHome: The FDA wants to put new labels on our food - "
             "just when I'd grown accustomed to the taste of our current "
@@ -107,7 +96,7 @@ class FormattingTests(unittest.TestCase):
             sys.stdout.getvalue().strip(),
         )
         sys.stdout = StringIO()
-        self.assertFalse(pyweet._print_tweet(tweet, settings))
+        pyweet._print_tweet(self.tweet, self.settings)
         self.assertEqual("", sys.stdout.getvalue().strip())
 
     def test_date_parsing(self):
