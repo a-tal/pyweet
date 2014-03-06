@@ -59,6 +59,44 @@ class CmdLineTests(unittest.TestCase):
         settings = pyweet.parse_args()
         self.assertTrue(settings.get("stream"))
 
+    def test_date_flag(self):
+        """Test using the date flag."""
+
+        sys.argv.append("-d")
+        settings = pyweet.parse_args()
+        self.assertTrue(settings.get("date"))
+
+    def test_time_flag(self):
+        """Test using the time flag."""
+
+        sys.argv.append("-t")
+        settings = pyweet.parse_args()
+        self.assertTrue(settings.get("time"))
+
+    def test_time_and_date_flags(self):
+        """Test using the time and the date flags."""
+
+        sys.argv.extend(["-t", "-d"])
+        settings = pyweet.parse_args()
+        self.assertTrue(settings.get("date"))
+        self.assertTrue(settings.get("time"))
+
+    def test_time_date_and_stream_flags(self):
+        """Test using the time, date and stream flags."""
+
+        sys.argv.extend(["-t", "-d", "-s"])
+        settings = pyweet.parse_args()
+        self.assertTrue(settings.get("date"))
+        self.assertTrue(settings.get("time"))
+        self.assertTrue(settings.get("stream"))
+
+    def test_spam_flag(self):
+        """Test using the disable anti-spam flag."""
+
+        sys.argv.append("-n")
+        settings = pyweet.parse_args()
+        self.assertTrue(settings.get("spam"))
+
 
 if __name__ == "__main__":
     unittest.main()
