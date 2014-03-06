@@ -1,0 +1,86 @@
+{
+    "contributors": null,
+    "coordinates": null,
+    "created_at": "Thu Mar 06 04:45:30 +0000 2014",
+    "entities": {
+        "hashtags": [],
+        "symbols": [],
+        "urls": [],
+        "user_mentions": []
+    },
+    "favorite_count": 726,
+    "favorited": false,
+    "geo": null,
+    "id": 441434374287138816,
+    "id_str": "441434374287138816",
+    "in_reply_to_screen_name": null,
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "lang": "en",
+    "place": null,
+    "retweet_count": 369,
+    "retweeted": false,
+    "source": "<a href=\"http://www.socialoomph.com\" rel=\"nofollow\">SocialOomph</a>",
+    "text": "The FDA wants to put new labels on our food - just when I'd grown accustomed to the taste of our current labels!",
+    "truncated": false,
+    "user": {
+        "contributors_enabled": false,
+        "created_at": "Mon Sep 15 22:31:44 +0000 2008",
+        "default_profile": false,
+        "default_profile_image": false,
+        "description": "",
+        "entities": {
+            "description": {
+                "urls": []
+            },
+            "url": {
+                "urls": [
+                    {
+                        "display_url": "ColbertNation.com",
+                        "expanded_url": "http://www.ColbertNation.com",
+                        "indices": [
+                            0,
+                            22
+                        ],
+                        "url": "http://t.co/XEarPAuk7M"
+                    }
+                ]
+            }
+        },
+        "favourites_count": 2,
+        "follow_request_sent": false,
+        "followers_count": 6007623,
+        "following": true,
+        "friends_count": 1,
+        "geo_enabled": false,
+        "id": 16303106,
+        "id_str": "16303106",
+        "is_translation_enabled": true,
+        "is_translator": false,
+        "lang": "en",
+        "listed_count": 64537,
+        "location": "",
+        "name": "Stephen Colbert",
+        "notifications": false,
+        "profile_background_color": "1A1B1F",
+        "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/39408843/twitterbkgrnd.jpg",
+        "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/39408843/twitterbkgrnd.jpg",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/3291883997/fae26d278dac0db23cc44e0465f42c4a_normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/3291883997/fae26d278dac0db23cc44e0465f42c4a_normal.png",
+        "profile_link_color": "2FC2EF",
+        "profile_sidebar_border_color": "181A1E",
+        "profile_sidebar_fill_color": "252429",
+        "profile_text_color": "666666",
+        "profile_use_background_image": true,
+        "protected": false,
+        "screen_name": "StephenAtHome",
+        "statuses_count": 2949,
+        "time_zone": "Eastern Time (US & Canada)",
+        "url": "http://t.co/XEarPAuk7M",
+        "utc_offset": -18000,
+        "verified": true
+    }
+}
