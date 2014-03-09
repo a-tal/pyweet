@@ -17,6 +17,8 @@ setup(
     description="Twitter command line util",
     long_description="Yet another Twitter command line utility.",
     download_url="https://github.com/a-tal/pyweet",
+    tests_require=['nose'],
+    test_suite='nose.collector',
     license="BSD",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
