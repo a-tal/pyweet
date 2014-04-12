@@ -42,6 +42,7 @@ def test_timeouts():
 
     assert AntiSpam.timeout == 1, "pytest isn't picking up the fixture"
     time.sleep(2)  # wait a bit
+    AntiSpam.clear()
     assert not AntiSpam.is_spam(message)
     assert AntiSpam.is_spam(message)
 

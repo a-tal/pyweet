@@ -145,5 +145,14 @@ def test_help():
     assert base.__doc__.strip() in raises.value.args
 
 
+def test_max_with_negative_search():
+    """Should be able to use -int with NOT search phrases."""
+
+    sys.argv.extend(["-6", "-apples", "pears"])
+    settings = parse_args()
+    assert settings.get("max") == 6
+    assert settings.get("search") == ["-apples", "pears"]
+
+
 if __name__ == "__main__":
     pytest.main()
