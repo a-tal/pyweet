@@ -45,7 +45,3 @@ def test_timeouts():
     AntiSpam.clear()
     assert not AntiSpam.is_spam(message)
     assert AntiSpam.is_spam(message)
-
-
-if __name__ == "__main__":
-    pytest.main()

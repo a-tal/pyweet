@@ -12,7 +12,6 @@ from pyweet.spam import AntiSpam
 from pyweet.base import print_tweet, parse_date, parse_args
 
 
-
 @pytest.fixture
 def settings():
     _settings = parse_args()
@@ -135,7 +134,3 @@ def test_date_parsing():
     assert date_obj.timetuple().tm_hour == 4
     assert date_obj.timetuple().tm_min == 45
     assert date_obj.timetuple().tm_sec == 30
-
-
-if __name__ == "__main__":
-    pytest.main()

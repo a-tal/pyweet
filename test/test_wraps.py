@@ -1,8 +1,6 @@
 """Test the wrapper function used by pyweet."""
 
 
-import pytest
-
 from pyweet.wraps import get_twit
 
 
@@ -50,7 +48,3 @@ def test_uid_lookup_with_stream():
         assert settings["uid"] == 63485337
 
     _test_method(settings={"user": "notch", "stream": True})
-
-
-if __name__ == "__main__":
-    pytest.main()

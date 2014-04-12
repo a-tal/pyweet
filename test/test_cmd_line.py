@@ -152,7 +152,3 @@ def test_max_with_negative_search():
     settings = parse_args()
     assert settings.get("max") == 6
     assert settings.get("search") == ["-apples", "pears"]
-
-
-if __name__ == "__main__":
-    pytest.main()

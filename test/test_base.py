@@ -3,8 +3,8 @@
 
 import mock
 import pytest
-
 import twitter
+
 from pyweet import base
 
 
@@ -113,7 +113,3 @@ class TestPrintTweets(object):
 
         base.print_tweets(twit=twit, settings=settings)
         twit.statuses.home_timeline.assert_called_once()
-
-
-if __name__ == "__main__":
-    pytest.main()
