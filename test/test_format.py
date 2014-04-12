@@ -4,43 +4,35 @@
 
 from __future__ import unicode_literals
 
-import os
 import sys
 import json
 import pytest
-
-if sys.version_info > (3,):
-    from io import StringIO
-else:
-    from StringIO import StringIO
 
 from pyweet.spam import AntiSpam
 from pyweet.base import print_tweet, parse_date, parse_args
 
 
-STDOUT = None
-
-
 
 @pytest.fixture
 def settings():
-    return parse_args()
+    _settings = parse_args()
+    _settings.update({"spam": True})
+    return _settings
 
 
 @pytest.fixture(autouse=True)
 def test_setup(request):
     """Register the finalizer."""
 
+    AntiSpam.tweet_store = {}
     request.addfinalizer(test_teardown)
 
 
-@pytest.fixture
 def test_teardown():
     """Reset argv and clear the AntiSpam."""
 
     while len(sys.argv) > 1:
         sys.argv.pop(-1)
-    AntiSpam.tweet_store = {}
 
 
 def test_basic_tweet_parsing(tweet, settings, capfd):
@@ -97,6 +89,7 @@ def test_parsing_with_time_and_date(tweet, settings, capfd):
 def test_second_parse_is_spam(tweet, settings, capfd):
     """The second identical tweet should be caught and not printed."""
 
+    settings.update({"spam": False})
     print_tweet(tweet, settings)
     out, _ = capfd.readouterr()
     assert (

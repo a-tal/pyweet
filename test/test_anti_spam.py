@@ -19,7 +19,7 @@ def set_test_timeout(request):
 
 @pytest.fixture
 def clear_store():
-    AntiSpam.clear()
+    AntiSpam.tweet_store = {}
     AntiSpam.timeout = 600
 
 
