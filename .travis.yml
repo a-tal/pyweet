@@ -12,7 +12,7 @@ before_install:
   - pip install --upgrade pytest
   - pip install --upgrade pytest-cov
 
-script: py.test --cov pyweet
+script: py.test --cov pyweet -rf -v
 
 after_success:
   - coveralls
