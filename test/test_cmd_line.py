@@ -4,6 +4,7 @@
 import sys
 import pytest
 
+from pyweet import base
 from pyweet.base import parse_args
 
 
@@ -131,6 +132,17 @@ def test_negative_search():
     sys.argv.extend(["-something", "theotherthing"])
     settings = parse_args()
     assert settings.get("search") == ["-something", "theotherthing"]
+
+
+def test_help():
+    """The -h flag should raise SysExit with base.py's docstring."""
+
+    # shouldn't matter the order the -h comes in
+    sys.argv.extend(["-u", "someone", "-s", "-h", "wow", "much", "search"])
+    with pytest.raises(SystemExit) as raises:
+        parse_args()
+
+    assert base.__doc__.strip() in raises.value.args
 
 
 if __name__ == "__main__":
