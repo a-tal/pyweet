@@ -38,7 +38,7 @@ def print_tweet(tweet, settings):
        AntiSpam.is_spam(tweet_text)):
         return False
 
-    if sys.version_info.major == 2:
+    if sys.version_info[0] == 2:
         for encoding in ["utf-8", "latin-1"]:
             try:
                 tweet_text.decode(encoding)
@@ -76,8 +76,8 @@ def print_tweet(tweet, settings):
 def parse_date(date_str):
     """Parse out a datetime object from string using Twitter's formatting."""
 
-    major = sys.version_info.major
-    minor = sys.version_info.minor
+    major = sys.version_info[0]
+    minor = sys.version_info[1]
     if major > 3 or (major == 3 and minor >= 2):  # python4 support :p
         date = datetime.strptime(date_str, "%a %b %d %H:%M:%S %z %Y")
     else:
