@@ -12,7 +12,7 @@ class PyTest(TestCommand):
         """Stolen from http://pytest.org/latest/goodpractises.html."""
 
         TestCommand.finalize_options(self)
-        self.test_args = ["-v", "-rf", "test"]
+        self.test_args = ["-v", "-rf", "--cov", "pyweet", "test"]
         self.test_suite = True
 
     def run_tests(self):
@@ -36,7 +36,7 @@ setup(
     description="Twitter command line util",
     long_description="Yet another Twitter command line utility.",
     download_url="https://github.com/a-tal/pyweet",
-    tests_require=["pytest"],
+    tests_require=["pytest", "mock", "pytest-cov", "coverage"],
     cmdclass={"test": PyTest},
     license="BSD",
     classifiers=[

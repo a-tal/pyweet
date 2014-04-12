@@ -2,7 +2,20 @@
 
 
 import os
+import json
 import pytest
+
+
+@pytest.fixture
+def tweet():
+    """Returns the json loaded example tweet from test/data."""
+
+    return json.load(open(os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+        "test",
+        "data",
+        "tweet.json",
+    )))
 
 
 @pytest.fixture(autouse=True, scope="session")

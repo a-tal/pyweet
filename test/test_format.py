@@ -21,14 +21,6 @@ from pyweet.base import print_tweet, parse_date, parse_args
 STDOUT = None
 
 
-@pytest.fixture
-def tweet():
-    return json.load(open(os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        "data",
-        "tweet.json",
-    )))
-
 
 @pytest.fixture
 def settings():
