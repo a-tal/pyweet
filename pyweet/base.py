@@ -17,122 +17,16 @@ module and/or API changes...
 """
 
 
-import os
 import sys
 import json
-import time
-import twitter
-import traceback
-from functools import wraps
 from datetime import datetime
 from xml.sax.saxutils import unescape
 
-
-class Settings(object):
-    """Basic settings object for pyweet."""
-
-    API = "rgIYSFIeGBxVXOPy22QzA"
-    API_SECRET = "IK7buBUcWz1zKyTK6KF08WpG4Ic8w83DuEAb1FIErio"
-    AUTH_FILE = os.path.expanduser("~/.pyweet")
+from pyweet.wraps import get_twit
+from pyweet.spam import AntiSpam
 
 
-class AntiSpam(object):
-    """Stores tweets with timestamps to prevent some spam."""
-
-    tweet_store = {}
-    timeout = 600
-
-    def __init__(self, timeout=None):
-        """Possible to override the timeout, for testing purposes."""
-
-        if timeout and isinstance(timeout, int):
-            setattr(AntiSpam, "timeout", timeout)
-        super(AntiSpam, self).__init__()
-
-    @staticmethod
-    def is_spam(tweet_text):
-        """Ensures the tweet text is unique to the last 10 minutes.
-
-        Returns:
-            True if the tweet has been seen recently
-        """
-
-        now = int(time.time())
-        AntiSpam._clear_store(now)
-        if tweet_text in AntiSpam.tweet_store:
-            return True
-        else:
-            AntiSpam.tweet_store[tweet_text] = now
-
-    @staticmethod
-    def _clear_store(now):
-        """Remove old entries."""
-
-        pops = []
-        for text, timestamp in AntiSpam.tweet_store.items():
-            if now - timestamp > AntiSpam.timeout:
-                pops.append(text)
-
-        for popper in pops:
-            AntiSpam.tweet_store.pop(popper)
-
-
-def get_twit(func):
-    """Performs oauth and provides the twitter object as kwarg 'twit'."""
-
-    @wraps(func)
-    def _get_twit(*args, **kwargs):
-        """Instantiates a Twitter object based on streaming or RESTful."""
-
-        settings = kwargs.get("settings", {})
-        _twit = None
-
-        def _lookup_uid(twit):
-            """Updates settings, adding the `uid` key."""
-
-            uid = twit.users.lookup(screen_name=settings["user"])[0]["id"]
-            settings.update({"uid": uid})
-
-        if not "twit" in kwargs or kwargs["twit"] is None:
-            oauth = _get_oauth()
-            if settings.get("stream") and (settings.get("search") or
-               settings.get("user")):
-                if settings.get("user"):
-                    # the screen_name->uid lookup is only available RESTfully
-                    twit_rest = twitter.Twitter(auth=oauth)
-                    _lookup_uid(twit_rest)
-                twit = twitter.TwitterStream(auth=oauth)
-            else:
-                twit = twitter.Twitter(auth=oauth)
-                settings["stream"] = False
-                if settings.get("user"):
-                    _lookup_uid(twit)
-            _twit = twit
-        else:
-            _twit = kwargs["twit"]
-
-        kwargs.update({"twit": _twit, "settings": settings})
-        return func(*args, **kwargs)
-
-    return _get_twit
-
-
-def _get_oauth():
-    """Authenticate/register."""
-
-    if not os.path.exists(Settings.AUTH_FILE):
-        twitter.oauth_dance(
-            "pyweet",
-            Settings.API,
-            Settings.API_SECRET,
-            Settings.AUTH_FILE,
-        )
-
-    token, secret = twitter.read_token_file(Settings.AUTH_FILE)
-    return twitter.OAuth(token, secret, Settings.API, Settings.API_SECRET)
-
-
-def _print_tweet(tweet, settings):
+def print_tweet(tweet, settings):
     """Format and print the tweet dict.
 
     Returns:
@@ -160,7 +54,7 @@ def _print_tweet(tweet, settings):
     else:
         prepend = []
         if settings.get("date") or settings.get("time"):
-            date = _parse_date(tweet["created_at"])
+            date = parse_date(tweet["created_at"])
             if settings.get("date"):
                 prepend.append("{0:%b} {1}".format(
                     date,
@@ -169,7 +63,7 @@ def _print_tweet(tweet, settings):
             if settings.get("time"):
                 prepend.append("{0:%H}:{0:%M}:{0:%S}".format(date))
 
-        print("{}{}@{}: {}".format(
+        print("{0}{1}@{2}: {3}".format(
             " ".join(prepend),
             " " * int(prepend != []),
             tweet.get("user", {}).get("screen_name", ""),
@@ -179,7 +73,7 @@ def _print_tweet(tweet, settings):
     return True
 
 
-def _parse_date(date_str):
+def parse_date(date_str):
     """Parse out a datetime object from string using Twitter's formatting."""
 
     major = sys.version_info.major
@@ -195,7 +89,7 @@ def _parse_date(date_str):
     return date
 
 
-def _streamed_search(twit=None, settings=None):
+def streamed_search(twit=None, settings=None):
     """Stream a search query to the console."""
 
     kwargs = {}
@@ -206,7 +100,7 @@ def _streamed_search(twit=None, settings=None):
 
     for tweet in twit.statuses.filter(**kwargs):
         if tweet:
-            _print_tweet(tweet, settings)
+            print_tweet(tweet, settings)
 
 
 @get_twit
@@ -214,7 +108,7 @@ def print_tweets(twit=None, settings=None):
     """Find some tweets and print them to console."""
 
     if settings["stream"] and (settings["search"] or settings["user"]):
-        return _streamed_search(twit, settings)
+        return streamed_search(twit, settings)
     elif settings.get("uid"):
         tweets = twit.statuses.user_timeline(user_id=settings["uid"])
     elif settings["search"]:
@@ -224,7 +118,7 @@ def print_tweets(twit=None, settings=None):
 
     max_tweets = settings["max"]
     for i, tweet in enumerate(tweets):
-        if not _print_tweet(tweet, settings):
+        if not print_tweet(tweet, settings):
             max_tweets += 1
         if (i + 1) >= max_tweets:
             break
@@ -291,26 +185,9 @@ def parse_args():
         else:
             settings["search"].append(arg_copy)
 
+    if settings["stream"] and not (settings["search"] or settings["user"]):
+        raise SystemExit(
+            __doc__ + "Streaming requires search phrases or the -u flag"
+        )
+
     return settings
-
-
-def main():
-    """Main loop. Except KeyboardInterrupts and a global except all."""
-
-    try:
-        print_tweets(settings=parse_args())
-    except KeyboardInterrupt:
-        pass
-    except Exception as error:
-        try:
-            reply = raw_input("Errored. Would you like to see the traceback? ")
-        except KeyboardInterrupt:
-            raise SystemExit(1)
-        else:
-            if reply.lower().startswith("y"):
-                raise SystemExit(traceback.format_exc().strip())
-    raise SystemExit
-
-
-if __name__ == "__main__":
-    main()

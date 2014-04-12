@@ -1,11 +1,27 @@
 #!/usr/bin/env python
-
-
 """Pyweet's command line entry point."""
 
 
-import pyweet
+import traceback
+
+from pyweet.base import print_tweets, parse_args
+
+
+def main():
+    try:
+        print_tweets(settings=parse_args())
+    except KeyboardInterrupt:
+        pass
+    except Exception as error:
+        try:
+            reply = input("Errored. Would you like to see the traceback? ")
+        except KeyboardInterrupt:
+            pass
+        else:
+            if reply.lower().startswith("y"):
+                raise SystemExit(traceback.format_exc().strip())
+    raise SystemExit
 
 
 if __name__ == "__main__":
-    pyweet.main()
+    main()
