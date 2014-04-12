@@ -9,7 +9,7 @@ import sys
 import json
 import pytest
 
-if sys.version_info.major >= 3:
+if sys.version_info > (3,):
     from io import StringIO
 else:
     from StringIO import StringIO
