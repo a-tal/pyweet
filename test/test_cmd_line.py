@@ -117,5 +117,21 @@ def test_spam_flag():
     assert settings.get("spam")
 
 
+def test_json_flag():
+    """Test using the -j flag to dump the tweet jsons."""
+
+    sys.argv.append("-j")
+    settings = parse_args()
+    assert settings.get("json")
+
+
+def test_negative_search():
+    """We should be able to use a - at the start of a phrase to NOT it."""
+
+    sys.argv.extend(["-something", "theotherthing"])
+    settings = parse_args()
+    assert settings.get("search") == ["-something", "theotherthing"]
+
+
 if __name__ == "__main__":
     pytest.main()
