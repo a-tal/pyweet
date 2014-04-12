@@ -124,7 +124,7 @@ def test_cannot_decode_crazy_chars(tweet, settings, capfd):
     tweet["text"] = "do you have any spare ⌛ for a 🍔?"
     print_tweet(tweet, settings)
     out, _ = capfd.readouterr()
-    if sys.version_info.major == 2:
+    if sys.version_info[0] == 2:
         assert not out
     else:
         assert tweet["text"] in out.strip()
