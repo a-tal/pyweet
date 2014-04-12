@@ -11,6 +11,7 @@ before_install:
   - pip install --upgrade coverage
   - pip install --upgrade twitter
   - pip install --upgrade pytest
+  - pip install --upgrade pytest-cov
 
 script: py.test --cov pyweet
 
@@ -25,4 +26,4 @@ notifications:
 
 env:
   global:
-    secure: "P+kiTxSRh5cNkSzgaK8/oOu+Afp4EMmotq2BbH0tovHjKQWBkm4ETcAPYxpMCRBhv9YPO+n9+OTsV6g+zWwd7NA9h5FNBWS2Uvci+2CM6vbslSloIEmcdZdcv0ZD8ExVFHQ6VzXmsthiNlkJvXkDHgdHqgE8DT5u7Ez3CtjcGYM="
+    secure: "SeKb0zZ/gv9SZd5WIziL54BZz0YczpV+OIMmuzgK9eaJq6hmHWRJ4VZa2c5Xkx3YoVl/Y6CkIu1zL3WBm/IaajkuUCyrQhWrTZzxJJtDOPyQWO9EqE7r6kTWuqYOOXDp2EDxvQoE0bbrsJ9EsXLGw5FgC0AOc43Cvoh3hlm1gG4="
