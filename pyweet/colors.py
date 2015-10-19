@@ -15,7 +15,7 @@ class Term(object):
         if not hasattr(Term, "_colors"):
             Term._colors = {}
             term = Terminal()
-            if term.number_of_colors:
+            if term.color:
                 Term._colors["text"] = term.normal
                 if term.number_of_colors >= 256:
                     Term._colors["name"] = term.color(35)
