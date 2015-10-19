@@ -30,7 +30,7 @@ setup(
     author="Adam Talsma",
     author_email="adam@talsma.ca",
     packages=["pyweet"],
-    install_requires=["twitter"],
+    install_requires=["twitter", "blessings"],
     scripts=["bin/pyweet"],
     url="https://github.com/a-tal/pyweet",
     description="Twitter command line util",

@@ -24,6 +24,7 @@ from xml.sax.saxutils import unescape
 
 from pyweet.wraps import get_twit
 from pyweet.spam import AntiSpam
+from pyweet.colors import highlight_tweet
 
 
 def print_tweet(tweet, settings):
@@ -63,12 +64,13 @@ def print_tweet(tweet, settings):
             if settings.get("time"):
                 prepend.append("{0:%H}:{0:%M}:{0:%S}".format(date))
 
-        print("{0}{1}@{2}: {3}".format(
+        tweet = "{0}{1}@{2}: {3}".format(
             " ".join(prepend),
             " " * int(prepend != []),
             tweet.get("user", {}).get("screen_name", ""),
             unescape(tweet_text),
-        ))
+        )
+        print(highlight_tweet(tweet))
 
     return True
 
