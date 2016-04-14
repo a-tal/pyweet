@@ -36,7 +36,7 @@ class Term(object):
             if Term.colors():
                 Term._patterns["url"] = re.compile(
                     r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
-                    r'(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+                    r'(?:%[0-9a-fA-F][0-9a-fA-F]))+'
                 )
                 Term._patterns["name"] = re.compile(r'(^|[^@\w])@(\w{1,15})\b')
                 Term._patterns["hashtag"] = re.compile(r'(^|[ ])#\w+')
