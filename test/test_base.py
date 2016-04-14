@@ -112,4 +112,4 @@ class TestPrintTweets(object):
         }
 
         base.print_tweets(twit=twit, settings=settings)
-        twit.statuses.home_timeline.assert_called_once()
+        twit.statuses.home_timeline.assert_called_once_with()
