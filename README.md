@@ -6,7 +6,6 @@ pyweet
 [![Stories in Backlog](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=Backlog)](https://waffle.io/a-tal/pyweet)
 [![Stories In Progress](https://badge.waffle.io/a-tal/pyweet.png?label=ready&title=In+Progress)](https://waffle.io/a-tal/pyweet)
 [![Version](https://img.shields.io/pypi/v/pyweet.svg)](https://pypi.python.org/pypi/pyweet/)
-[![Downloads this month](https://img.shields.io/pypi/dm/pyweet.svg)](https://pypi.python.org/pypi/pyweet/)
 
 A Twitter command line interface written in Python.
 
